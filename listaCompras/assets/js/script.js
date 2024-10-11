@@ -3,6 +3,8 @@ const inputField = document.getElementById('itemInput');
 const addItemBtn = document.getElementById('addItemBtn');
 const shoppingList = document.getElementById('shoppingList');
 const removeItemBtn = document.getElementById('removeItemBtn');
+// Array com todos os elementos da lista para evitar duplicidade
+var totalItens = [];
 
 // Função para adicionar um novo item à lista
 addItemBtn.addEventListener('click', function() {
@@ -20,7 +22,18 @@ addItemBtn.addEventListener('click', function() {
         listItem.appendChild(label);
 
         // Adiciona o novo item de lista à lista de compras
+        console.log(itemText);
+        console.log(listItem);
+        console.log(shoppingList);
+        
+        totalItens.forEach(item) => if(item !== itemText){
+            totalItens.push(itemText);
+        }
+        
+
         shoppingList.appendChild(listItem);
+        
+    
 
         // Limpa o campo de input
         inputField.value = '';
