@@ -24,6 +24,12 @@ input[type="text"] {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    transition: border-color 0.3s ease; /* Transição suave para a mudança de borda */
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #80bdff; /* Cor da borda quando o input está focado */
 }
 
 button {
@@ -35,6 +41,7 @@ button {
     cursor: pointer;
 }
 
+/* Estilização específica pelo ID para o botão de adicionar */
 #addItemBtn {
     background-color: #28a745;
     color: white;
@@ -44,6 +51,7 @@ button {
     background-color: #218838;
 }
 
+/* Estilização específica pelo ID para o botão de remover */
 #removeItemBtn {
     background-color: #dc3545;
     color: white;
@@ -64,6 +72,20 @@ li {
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    opacity: 0;
+    transform: translateY(-20px); /* Faz o item começar fora da lista */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transição suave para inclusão e remoção */
+}
+
+li.show {
+    opacity: 1;
+    transform: translateY(0); /* O item "entra" suavemente na lista */
+}
+
+li.remove {
+    opacity: 0;
+    transform: translateY(-20px); /* O item "sai" suavemente da lista */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Suaviza a remoção */
 }
 
 li label {

@@ -3,18 +3,36 @@ const inputField = document.getElementById('itemInput');
 const addItemBtn = document.getElementById('addItemBtn');
 const shoppingList = document.getElementById('shoppingList');
 const removeItemBtn = document.getElementById('removeItemBtn');
-// Array com todos os elementos da lista para evitar duplicidade
-var totalItens = [];
+
+// Função para verificar se o item já existe
+function itemExists(itemText) {
+    const listItems = shoppingList.querySelectorAll('li label');
+    for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i].textContent.toLowerCase() === itemText.toLowerCase()) {
+            return true;
+        }
+    }
+    return false;
+}
 
 // Função para adicionar um novo item à lista
 addItemBtn.addEventListener('click', function() {
     const itemText = inputField.value.trim(); // Captura o valor do input e remove espaços em branco
-    if (itemText !== '') {
-        const listItem = document.createElement('li'); // Cria um novo item de lista (li)
-        const checkbox = document.createElement('input'); // Cria uma checkbox
+
+    // Verifica se o item já existe
+    if (itemExists(itemText)) {
+        inputField.style.border = '2px solid red'; // Adiciona borda vermelha no input
+        alert('O item já existe na lista de compras!');
+    } else if (itemText !== '') {
+        // Remove a borda vermelha caso o item seja válido
+        inputField.style.border = '';
+
+        // Cria um novo item de lista (li)
+        const listItem = document.createElement('li');
+        const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
 
-        const label = document.createElement('label'); // Cria um label para o texto do item
+        const label = document.createElement('label');
         label.textContent = itemText;
 
         // Adiciona checkbox e label ao item de lista
@@ -22,18 +40,12 @@ addItemBtn.addEventListener('click', function() {
         listItem.appendChild(label);
 
         // Adiciona o novo item de lista à lista de compras
-        console.log(itemText);
-        console.log(listItem);
-        console.log(shoppingList);
-        
-        totalItens.forEach(item) => if(item !== itemText){
-            totalItens.push(itemText);
-        }
-        
-
         shoppingList.appendChild(listItem);
-        
-    
+
+        // Aplica a animação para o item aparecer suavemente
+        setTimeout(function() {
+            listItem.classList.add('show');
+        }, 10);
 
         // Limpa o campo de input
         inputField.value = '';
@@ -47,7 +59,13 @@ removeItemBtn.addEventListener('click', function() {
     listItems.forEach(function(item) {
         const checkbox = item.querySelector('input[type="checkbox"]'); // Seleciona a checkbox de cada item
         if (checkbox.checked) {
-            shoppingList.removeChild(item); // Remove o item se a checkbox estiver marcada
+            // Aplica a animação de remoção
+            item.classList.add('remove');
+
+            // Espera a animação terminar para remover o item do DOM
+            setTimeout(function() {
+                shoppingList.removeChild(item);
+            }, 500); // O tempo deve ser igual ao da transição CSS (0.5s)
         }
     });
 });
